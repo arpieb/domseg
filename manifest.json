@@ -1,0 +1,22 @@
+{
+
+  "description": "Provides an element-level annotation tool for machine learning datasets",
+  "manifest_version": 2,
+  "name": "HTML Element Annotator",
+  "version": "1.0",
+  "homepage_url": "https://github.com/arpieb/html-element-annotator",
+
+  "permissions": [
+    "tabs",
+    "<all_urls>" 
+  ],
+
+  "sidebar_action": {
+    "default_title": "HTML Element Annotator",
+    "default_panel": "sidebar/sidebar.html"
+  },
+
+  "web_accessible_resources": [
+  ]
+}
+
