@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Prototyping Page</title>
+
+    <!-- This STYLE element content can be moved to sidebar/sidebar.css -->
+    <style>
+      /* 
+      Note this will not be needed in the extension sidebar 
+      */
+      aside {
+        width: 20%;
+        float: left;
+        border: 1px solid darkgray;
+      }
+
+      .class-selector {
+        border: 4px solid white;
+        display: block;
+        width: 100%;
+        margin: 1em 0 1em;
+        padding: 0.5em;
+      }
+
+      .class-selector.selected {
+        border: 4px solid black;
+      }
+    </style>
+
+    <!-- This is just basic styling for the test content -->
+    <style>
+      main {
+        float: left;
+        width: 70%;
+        padding: 1em;
+        border: 1px solid darkgray;
+      }
+
+      div {
+        padding: 1em;
+      }
+
+      .nav li {
+        display: inline-block;
+        list-style-type: none;
+      }
+
+      .footer div {
+        display: inline-block;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Stubbing out possible sidebar layour for extension within an ASIDE element -->
+    <aside id="sidebar">
+      <div>
+        <input type="checkbox" id="taggingActive" />
+        <label for="taggingActive">Activate tagging</label>
+        <button class="class-selector" style="background-color:aqua" data-class="header">header</button>
+        <button class="class-selector" style="background-color:cadetblue" data-class="header-nav">header-nav</button>
+        <button class="class-selector" style="background-color:burlywood" data-class="content">content</button>
+        <button class="class-selector" style="background-color:lightgreen" data-class="content-card">content-card</button>
+        <button class="class-selector" style="background-color:khaki" data-class="sidebar">sidebar</button>
+        <button class="class-selector" style="background-color:yellow" data-class="sidebar-nav">sidebar-nav</button>
+        <button class="class-selector" style="background-color:darksalmon" data-class="advertisement">advertisement</button>
+        <button class="class-selector" style="background-color:mediumorchid" data-class="footer">footer</button>
+        <button class="class-selector" style="background-color:lightyellow" data-class="footer-nav">footer-nav</button>
+      </div>
+    </aside>
+
+    <!-- Main page test content-->
+    <main>
+      <div class="header">
+        <div class="nav">
+          <ul>
+            <li><a href="#Home">Home</a></li>
+            <li><a href="#About">About</a></li>
+            <li><a href="#Contact">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+  
+      <div class="content">
+        <article>
+          <h1>Content title</h1>
+          <p>Para One</p>
+          <p>Para Two</p>
+          <p>Para Three</p>
+        </article>
+      </div>
+  
+      <div class="footer">
+        <div class="nav">
+          <ul>
+            <li><a href="#Privacy">Privacy</a></li>
+            <li><a href="#TOS">TOS</a></li>
+            <li><a href="#Social">Social</a></li>
+          </ul>
+        </div>
+      </div>
+    </main>
+
+    <!-- This SCRIPT element content can be moved to sidebar/sidebar.js and/or into a content script as needed to function cross-window -->
+    <script lang="javascript">
+      var state = {
+        selectedClassButton: null,
+        curElement: null,
+        taggingToggle: document.getElementById('taggingActive'),
+      }
+
+      document.querySelectorAll('.class-selector').forEach(item => {
+        item.addEventListener('click', function(e) {
+          state.selectedClassButton = e.currentTarget;
+          updateSelectedClass();
+        })
+      });
+
+      function updateSelectedClass() {
+        document.querySelectorAll('.class-selector').forEach(item => {
+          item.classList.remove('selected');
+        })
+        state.selectedClassButton.classList.toggle('selected');
+      }
+
+      document.addEventListener('mouseover', function(e) {
+        if (taggableElement(e)) {
+          updateBackgrounds(e.target);
+        }
+        else {
+          updateBackgrounds(null);
+        }
+      });
+
+      function updateBackgrounds(target) {
+        const attrColor = 'data-head-prev-bgcolor'
+          prevElement = state.curElement;
+          state.curElement = target;
+
+          if (prevElement !== null) {
+            prevColor = prevElement.attributes[attrColor];
+            prevElement.style.backgroundColor = prevColor;
+          }
+          if (state.curElement !== null) {
+            selectedClassColor = state.selectedClassButton.style.backgroundColor;
+            state.curElement.attributes[attrColor] = state.curElement.style.backgroundColor;
+            state.curElement.style.backgroundColor = selectedClassColor;
+          }
+      }
+
+      document.addEventListener('click', function(e) {
+        if (taggableElement(e)) {
+          taggedElement = e.target;
+          addTaggedElement(taggedElement);
+          e.preventDefault();
+        }
+      });
+
+      function addTaggedElement(el) {
+        console.log('tagged element: ', el);
+      }
+
+      function taggableElement(e) {
+        sidebar = document.getElementById('sidebar');
+        target = e.target;
+        casedTagName = target.tagName.toLowerCase();
+        if (state.taggingToggle.checked && 
+            state.selectedClassButton !== null && 
+            casedTagName !== 'html' && target !== casedTagName !== 'body' && 
+            sidebar !== target &&
+            !sidebar.contains(target)) return true;
+        return false;
+      }
+    </script>
+
+  </body>
+</html>

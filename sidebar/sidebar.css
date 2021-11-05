@@ -1,0 +1,15 @@
+body {
+  padding: 1em;
+}
+
+.class-selector {
+  border: 4px solid white;
+  display: block;
+  width: 100%;
+  margin: 1em 0 1em;
+  padding: 0.5em;
+}
+
+.class-selector.selected {
+  border: 4px solid black;
+}
