@@ -121,7 +121,7 @@
 
       // Test if we can tag the currently active element
       function taggableElement(e) {
-        // NOTE the sidebar tets goes away opnce moved into an extension
+        // NOTE the sidebar test goes away opnce moved into an extension
         sidebar = document.getElementById('sidebar');
         target = e.target;
         casedTagName = target.tagName.toLowerCase();
@@ -143,23 +143,23 @@
             prevColor = prevElement.dataset.heaPrevBgcolor;
           }
           else {
-            prevColor = prevElement.dataset.heaTaggedClassBgcolor;
+            prevColor = state.tagClasses[prevElement.dataset.heaTaggedClass];
           }
           prevElement.style.backgroundColor = prevColor;
         }
         if (state.curElement !== null) {
-          tagClass = state.curClass;
-          selectedClassColor = state.tagClasses[tagClass];
-          state.curElement.dataset.heaPrevBgcolor = state.curElement.style.backgroundColor;
+          selectedClassColor = state.tagClasses[state.curClass];
+          if (!state.curElement.dataset.heaTaggedClass) {
+            state.curElement.dataset.heaPrevBgcolor = state.curElement.style.backgroundColor;
+          }
           state.curElement.style.backgroundColor = selectedClassColor;
         }
       }
 
       // Tag element with currently selected data class and do something with it
-      function addTaggedElement(el) {
+      function tagElement(el) {
         tagClass = state.curClass;
         el.dataset.heaTaggedClass = tagClass;
-        el.dataset.heaTaggedClassBgcolor = state.tagClasses[tagClass];
         data = {
           docInfo: document, 
           html: document.getRootNode().children[0].outerHTML,
@@ -193,25 +193,23 @@
       // Add click handler for taggable page elements
       document.addEventListener('click', function(e) {
         if (taggableElement(e)) {
-          taggedElement = e.target;
-          addTaggedElement(taggedElement);
+          tagElement(e.target);
           e.preventDefault();
         }
       });
 
+      // Add click handler for reset button
       state.resetButton.addEventListener('click', function(e) {
         if (state.taggingToggle.checked) {
           Array.from(document.all).forEach(item => {
-            if (item.dataset.heaPrevBgcolor !== null) {
-              item.style.backgroundColor = item.dataset.heaPrevBgcolor;
-            }
-            delete item.dataset.heaPrevBgcolor;
             delete item.dataset.heaTaggedClass;
-            delete item.dataset.heaTaggedClassBgcolor;
+            item.style.backgroundColor = item.dataset.heaPrevBgcolor;
+            delete item.dataset.heaPrevBgcolor;
           });
         }
       });
 
+      // Add click handler to "activate tagging" checkbox to toggle state of reset button
       state.taggingToggle.addEventListener('click', function(e) {
         state.resetButton.disabled = state.taggingToggle.checked ? false : true;
       });
