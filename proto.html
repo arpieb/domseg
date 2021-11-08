@@ -141,6 +141,7 @@
         if (prevElement !== null) {
           if (!prevElement.dataset.heaTaggedClass) {
             prevColor = prevElement.dataset.heaPrevBgcolor;
+            delete prevElement.dataset.heaPrevBgcolor;
           }
           else {
             prevColor = state.tagClasses[prevElement.dataset.heaTaggedClass];
