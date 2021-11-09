@@ -2,10 +2,10 @@
 
 A Quick-n-Dirty™ tool for annotating HTML elements for ML Datasets within FireFox.
 
-## Installation
+## Extension
 
-TODO
+The code for the Firefox extension lives under the `extension` folder.  The README there provides documentation specific to that codebase.
 
-## Usage
+## Server
 
-TODO
+The code for the **HEAServer** that provides a backend for the extension client lives under the `server` folder.  The README there provides documentation specific to that codebase.
