@@ -13,6 +13,7 @@
 
   "sidebar_action": {
     "default_title": "HTML Element Annotator",
+    "default_icon": "sidebar/icon.svg",
     "default_panel": "sidebar/sidebar.html"
   },
 
