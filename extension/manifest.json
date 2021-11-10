@@ -12,7 +12,7 @@
   ],
 
   "sidebar_action": {
-    "default_title": "HTML Element Annotator",
+    "default_title": "HEA Tagger",
     "default_icon": "sidebar/icon.svg",
     "default_panel": "sidebar/sidebar.html"
   },

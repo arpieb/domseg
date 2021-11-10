@@ -9,18 +9,27 @@
 
   <body>
     <div>
-      <input type="checkbox" id="taggingActive" />
-      <label for="taggingActive">Activate tagging</label>
-      <button class="class-selector" style="background-color:aqua" data-class="header">header</button>
-      <button class="class-selector" style="background-color:cadetblue" data-class="header-nav">header-nav</button>
-      <button class="class-selector" style="background-color:burlywood" data-class="content">content</button>
-      <button class="class-selector" style="background-color:lightgreen" data-class="content-card">content-card</button>
-      <button class="class-selector" style="background-color:khaki" data-class="sidebar">sidebar</button>
-      <button class="class-selector" style="background-color:yellow" data-class="sidebar-nav">sidebar-nav</button>
-      <button class="class-selector" style="background-color:darksalmon" data-class="advertisement">advertisement</button>
-      <button class="class-selector" style="background-color:mediumorchid" data-class="footer">footer</button>
-      <button class="class-selector" style="background-color:lightyellow" data-class="footer-nav">footer-nav</button>
-      <button id="reset" disabled=true>Reset</button>
+      <div class="class-selectors">
+        <!-- The following items should ultimately be created dynamically based on chat with HEAServer -->
+        <button class="class-selector" style="background-color:aqua" data-class="header">header</button>
+        <button class="class-selector" style="background-color:cadetblue" data-class="header-nav">header-nav</button>
+        <button class="class-selector" style="background-color:burlywood" data-class="content">content</button>
+        <button class="class-selector" style="background-color:lightgreen" data-class="content-card">content-card</button>
+        <button class="class-selector" style="background-color:khaki" data-class="sidebar">sidebar</button>
+        <button class="class-selector" style="background-color:yellow" data-class="sidebar-nav">sidebar-nav</button>
+        <button class="class-selector" style="background-color:darksalmon" data-class="advertisement">advertisement</button>
+        <button class="class-selector" style="background-color:mediumorchid" data-class="footer">footer</button>
+        <button class="class-selector" style="background-color:lightyellow" data-class="footer-nav">footer-nav</button>
+      </div>
+
+      <div class="control">
+        <input type="checkbox" id="taggingActive" />
+        <label for="taggingActive">Activate tagging</label>
+      </div>
+
+      <div class="control">
+        <button id="reset" disabled=true>Reset</button>
+      </div>
     </div>
 
     <script src="sidebar.js"></script>
