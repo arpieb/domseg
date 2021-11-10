@@ -1,9 +1,27 @@
+const taggingToggle = document.getElementById('taggingActive');
 var state = {
-  curClass: 'foo',
+  taggingActive: taggingToggle.checked,
+  curClass: null,
   tagClasses: {},
 }
-const taggingToggle = document.getElementById('taggingActive');
-const resetButton = document.getElementById('reset');
+
+// Notify all tabs of state update
+function sendMessageToTabs(tabs) {
+  for (let tab of tabs) {
+    browser.tabs.sendMessage(
+      tab.id,
+      state
+    ).catch(onError);
+  }
+}
+
+// Send update message to content scripts
+function updateContentScripts() {
+  browser.tabs.query({
+    currentWindow: true,
+    active: true
+  }).then(sendMessageToTabs).catch(onError);
+}
 
 // Register click handler for each tag class button in sidebar
 document.querySelectorAll('.class-selector').forEach(item => {
@@ -14,21 +32,19 @@ document.querySelectorAll('.class-selector').forEach(item => {
       item.classList.remove('selected');
     })
     e.target.classList.toggle('selected');
+    updateContentScripts();
   })
-});
-
-// Add click handler for reset button
-resetButton.addEventListener('click', function (e) {
-  if (taggingToggle.checked) {
-    Array.from(document.all).forEach(item => {
-      delete item.dataset.heaTaggedClass;
-      item.style.backgroundColor = item.dataset.heaPrevBgcolor;
-      delete item.dataset.heaPrevBgcolor;
-    });
-  }
 });
 
 // Add click handler to "activate tagging" checkbox to toggle state of reset button
 taggingToggle.addEventListener('click', function (e) {
-  resetButton.disabled = e.target.checked ? false : true;
+  state.taggingActive = e.target.checked;
+  updateContentScripts();
 });
+
+// Handle requests for updated state
+browser.runtime.onMessage.addListener(function (msg, sender, sendResponse) {
+  sendResponse(state);
+});
+
+// TODO load options

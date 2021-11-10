@@ -1,9 +1,12 @@
 // Define and init application state
 var state = {
+  // Content script managed state
   curElement: null,
-  taggingActive: true,
-  curClass: 'foo',
-  tagClasses: {'foo': 'aqua'},
+
+  // Extension managed state
+  taggingActive: false,
+  curClass: null,
+  tagClasses: {},
 }
 
 // Test if we can tag the currently active element
@@ -49,10 +52,22 @@ function tagElement(el) {
     docInfo: document,
     html: document.getRootNode().children[0].outerHTML,
   };
-  console.log('tagged', tagClass);
-  //console.log(JSON.stringify(data));
+  //console.log('tagged', tagClass);
+  console.log(JSON.stringify(data));
+  // TODO push to sidebar for persistence to backend
 }
 
+// Handle updates from extension
+function updateState(msg) {
+  state.taggingActive = msg.taggingActive;
+  state.curClass = msg.curClass;
+  state.tagClasses = msg.tagClasses;
+}
+
+// Get the current tagging state from extension
+browser.runtime.sendMessage(state).then(updateState);
+
+// Reset all tagged elements
 function resetTagging() {
   Array.from(document.all).forEach(item => {
     delete item.dataset.heaTaggedClass;
@@ -78,4 +93,9 @@ document.addEventListener('click', function (e) {
     //e.preventDefault();
     e.stopPropagation();
   }
+});
+
+// Add listener for extension state updates
+browser.runtime.onMessage.addListener(function (msg) {
+  updateState(msg);
 });
