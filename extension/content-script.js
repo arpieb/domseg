@@ -1,4 +1,4 @@
-var hea_app = {
+var app = {
   init: function() {
     // Define and init application state
     var state = {
@@ -51,12 +51,13 @@ var hea_app = {
       tagClass = state.curClass;
       el.dataset.heaTaggedClass = tagClass;
       data = {
-        docInfo: document,
+        url: document.URL,
         html: document.getRootNode().children[0].outerHTML,
       };
-      //console.log('tagged', tagClass);
-      console.log(JSON.stringify(data));
-      // TODO push to sidebar for persistence to backend
+      browser.runtime.sendMessage({
+        request: 'updateTags',
+        data: data
+        });
     }
 
     // Handle updates from extension
@@ -67,7 +68,9 @@ var hea_app = {
     }
 
     // Get the current tagging state from extension
-    browser.runtime.sendMessage(state).then(updateState);
+    browser.runtime.sendMessage({
+      request: 'requestState'
+    }).then(updateState);
 
     // Reset all tagged elements
     function resetTagging() {
@@ -92,8 +95,7 @@ var hea_app = {
     document.addEventListener('click', function (e) {
       if (taggableElement(e)) {
         tagElement(e.target);
-        //e.preventDefault();
-        e.stopPropagation();
+        e.preventDefault();
       }
     });
 
@@ -104,4 +106,4 @@ var hea_app = {
   }
 }
 
-hea_app.init();
+app.init();
