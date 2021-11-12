@@ -1,6 +1,6 @@
-# HTML Element Annotator
+# DOMSeg
 
-A Quick-n-Dirty™ tool for annotating HTML elements for ML Datasets within FireFox.
+A Quick-n-Dirty™ tool for semantic segmentation of web pages for ML Datasets within FireFox.
 
 ## Extension
 
@@ -8,4 +8,4 @@ The code for the Firefox extension lives under the `extension` folder.  The READ
 
 ## Server
 
-The code for the **HEAServer** that provides a backend for the extension client lives under the `server` folder.  The README there provides documentation specific to that codebase.
+The code for the **DOMSegServer** that provides a backend for the extension client lives under the `domsegserver` folder.  The README there provides documentation specific to that codebase.
