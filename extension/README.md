@@ -1,6 +1,6 @@
-# HTML Element Annotator - Extension
+# DOMSeg Annotator
 
-This folder contains the code for the Firefox extension that coordinates with the `HEAServer` to annotate web pages for ML datasets.
+This folder contains the code for the Firefox extension that coordinates with the `DOMSegServer` to annotate web pages for semantic segmantation ML datasets.
 
 ## Useful links
 

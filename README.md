@@ -1,6 +1,6 @@
-# HTML Element Annotator
+# DOMSeg Annotator
 
-A Quick-n-Dirty™ tool for annotating HTML elements for ML Datasets within FireFox.
+A Quick-n-Dirty™ tool for semantic segmentation annotation of HTML elements for ML Datasets within FireFox.
 
 ## Extension
 

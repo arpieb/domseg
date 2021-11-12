@@ -1,9 +1,9 @@
 {
-  "description": "Provides an element-level annotation tool for machine learning datasets",
+  "description": "Provides an element-level semantic segmentation annotation tool for machine learning datasets",
   "manifest_version": 2,
-  "name": "HTML Element Annotator",
+  "name": "DOMSeg Annotator",
   "version": "1.0",
-  "homepage_url": "https://github.com/arpieb/html-element-annotator",
+  "homepage_url": "https://github.com/arpieb/domseg",
   "icons": {
     "48": "icon.svg"
   },
@@ -24,7 +24,7 @@
   ],
 
   "sidebar_action": {
-    "default_title": "HEA Tagger",
+    "default_title": "DOMSeg Annotator",
     "default_icon": "icon.svg",
     "default_panel": "sidebar/sidebar.html"
   },

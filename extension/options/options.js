@@ -1,6 +1,6 @@
 var app = {
   init: function() {
-    const heaServerUrl = document.querySelector("#heaServerUrl");
+    const serverUrl = document.querySelector("#serverUrl");
     const authToken = document.querySelector("#authToken");
 
     /*
@@ -9,7 +9,7 @@ var app = {
     function storeSettings() {
       browser.storage.local.set({
         serverConfig: {
-          heaServerUrl: heaServerUrl.value,
+          serverUrl: serverUrl.value,
           authToken: authToken.value
         }
       });
@@ -20,7 +20,7 @@ var app = {
     or the default settings if the stored settings are empty.
     */
     function updateUI(restoredSettings) {
-      heaServerUrl.value = restoredSettings.serverConfig.heaServerUrl || "";
+      serverUrl.value = restoredSettings.serverConfig.serverUrl || "";
       authToken.value = restoredSettings.serverConfig.authToken || "";
     }
 
@@ -37,7 +37,7 @@ var app = {
     /*
     On blur, save the currently selected settings.
     */
-    heaServerUrl.addEventListener("blur", storeSettings);
+    serverUrl.addEventListener("blur", storeSettings);
     authToken.addEventListener("blur", storeSettings);
   }
 }

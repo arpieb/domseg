@@ -4,7 +4,7 @@ var storage = {
   init: function() {
     // Default settings. Initialize storage to these values.
     var serverConfig = {
-      heaServerUrl: "",
+      serverUrl: "",
       authToken: ""
     }
 
