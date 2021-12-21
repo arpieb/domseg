@@ -1,0 +1,79 @@
+<div>
+  <.form
+    let={f}
+    for={@changeset}
+    id="dataset-form"
+    phx-target={@myself}
+    phx-change="validate"
+    phx-submit="save">
+  
+    <.ignore>
+    <%= if @changeset.action do %>
+      <div class="alert alert-danger">
+        <p>Oops, something went wrong! Please check the errors below.</p>
+      </div>
+    <% end %>
+    </.ignore>
+
+    <div class="mb-3">
+      <%= label f, :name, class: "form-label" %>
+      <%= text_input f, :name, class: "form-control" %>
+      <div class="form-text domseg-error-tag">
+        <%= error_tag f, :name %>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <%= label f, :description, class: "form-label" %>
+      <%= textarea f, :description, class: "form-control" %>
+      <div class="form-text domseg-error-tag">
+        <%= error_tag f, :description %>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <%= checkbox f, :is_active, class: "form-check-control" %>
+      <%= label f, :is_active, class: "form-check-label" %>
+      <div class="form-text domseg-error-tag">
+        <%= error_tag f, :is_active %>
+      </div>
+    </div>
+
+    <strong>Segment Types</strong>
+    <%= inputs_for f, :segment_types, fn st -> %>
+      <div class="row gy-2 gx-3 align-items-center">
+        <div class="col">
+          <%= text_input st, :name, placeholder: "Name", class: "form-control" %>
+          <div class="form-text domseg-error-tag">
+            <%= error_tag st, :name %>
+          </div>
+        </div>
+
+        <div class="col">
+          <%= color_input st, :color, class: "form-control form-control-color", title: "Choose your color" %>
+          <div class="form-text domseg-error-tag">
+            <%= error_tag st, :color %>
+          </div>
+        </div>
+
+        <div class="col">
+          <%= if is_nil(st.data.temp_id) do %>
+            <%= checkbox st, :delete, class: "form-check-control" %>
+            <%= label st, :delete, class: "form-check-label" %>
+          <% else %>
+            <%= hidden_input st, :temp_id %>
+            <a href="#" phx-click="remove_new_segment_type" phx-target={@myself} phx-value-remove={st.data.temp_id} class="domseg-btn">Delete</a>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+
+    <div class="mb-3">
+      <a href="#" phx-click="add_segment_type" phx-target={@myself} class="domseg-btn">Add Segment Type</a>
+    </div>
+
+    <div class="mb-3">
+      <%= submit "Save", phx_disable_with: "Saving...", class: "domseg-btn" %>
+    </div>
+  </.form>
+</div>

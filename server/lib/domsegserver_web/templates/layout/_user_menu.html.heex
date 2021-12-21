@@ -1,0 +1,12 @@
+<%= if @current_user do %>
+  <li class="nav-item"><%= link "Datasets", to: Routes.dataset_index_path(@conn, :index), class: "nav-link" %></li>
+  <li class="nav-item">
+  <%= link to: Routes.user_settings_path(@conn, :edit), class: "nav-link" do %>
+    <%= get_avatar(@current_user.email) %>
+  <% end %>
+  </li>
+  <li class="nav-item"><%= link "Log out", to: Routes.user_session_path(@conn, :delete), method: :delete, class: "nav-link" %></li>
+<% else %>
+  <li class="nav-item"><%= link "Register", to: Routes.user_registration_path(@conn, :new), class: "nav-link" %></li>
+  <li class="nav-item"><%= link "Log in", to: Routes.user_session_path(@conn, :new), class: "nav-link" %></li>
+<% end %>

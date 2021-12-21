@@ -1,0 +1,54 @@
+<h1>Datasets</h1>
+
+<% current_user = get_current_user(@user_token) %>
+
+<%= if @live_action in [:new, :edit] and current_user != nil and current_user.is_admin do %>
+  <%= live_modal DOMSegServerWeb.DatasetLive.FormComponent,
+    id: @dataset.id || :new,
+    title: @page_title,
+    action: @live_action,
+    dataset: @dataset,
+    return_to: Routes.dataset_index_path(@socket, :index) %>
+<% end %>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col" class="w-50">Description</th>
+      <th scope="col">Active</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody id="datasets">
+    <%= for dataset <- @datasets do %>
+      <tr id={"dataset-#{dataset.id}"}>
+        <th scope="row">
+          <%= dataset.name %>
+        </th>
+
+        <td>
+          <%= dataset.description %>
+        </td>
+
+        <td>
+          <%= if dataset.is_active do %>
+            <%= Bootstrap.Icons.check2_circle(class: "domseg-icon-2x-check") %>
+          <% end %>
+        </td>
+
+        <td>
+          <span><%= live_redirect "Show", to: Routes.dataset_show_path(@socket, :show, dataset), class: "domseg-btn" %></span>
+          <%= if current_user != nil and current_user.is_admin do %>
+          <span><%= live_patch "Edit", to: Routes.dataset_index_path(@socket, :edit, dataset), class: "domseg-btn" %></span>
+          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: dataset.id, data: [confirm: "Are you sure?"], class: "domseg-btn-danger" %></span>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= if current_user != nil and current_user.is_admin do %>
+<span><%= live_patch "New Dataset", to: Routes.dataset_index_path(@socket, :new), class: "domseg-btn" %></span>
+<% end %>

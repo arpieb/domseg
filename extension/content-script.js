@@ -28,19 +28,19 @@ var app = {
       state.curElement = target;
 
       if (prevElement !== null) {
-        if (!prevElement.dataset.heaTaggedClass) {
-          prevColor = prevElement.dataset.heaPrevBgcolor;
-          delete prevElement.dataset.heaPrevBgcolor;
+        if (!prevElement.dataset.domsegClass) {
+          prevColor = prevElement.dataset.domsegPrevBgcolor;
+          delete prevElement.dataset.domsegPrevBgcolor;
         }
         else {
-          prevColor = state.tagClasses[prevElement.dataset.heaTaggedClass];
+          prevColor = state.tagClasses[prevElement.dataset.domsegClass];
         }
         prevElement.style.backgroundColor = prevColor;
       }
       if (state.curElement !== null) {
         selectedClassColor = state.tagClasses[state.curClass];
-        if (!state.curElement.dataset.heaTaggedClass) {
-          state.curElement.dataset.heaPrevBgcolor = state.curElement.style.backgroundColor;
+        if (!state.curElement.dataset.domsegClass) {
+          state.curElement.dataset.domsegPrevBgcolor = state.curElement.style.backgroundColor;
         }
         state.curElement.style.backgroundColor = selectedClassColor;
       }
@@ -49,7 +49,7 @@ var app = {
     // Tag element with currently selected data class and do something with it
     function tagElement(el) {
       tagClass = state.curClass;
-      el.dataset.heaTaggedClass = tagClass;
+      el.dataset.domsegClass = tagClass;
       data = {
         url: document.URL,
         html: document.getRootNode().children[0].outerHTML,
@@ -75,9 +75,9 @@ var app = {
     // Reset all tagged elements
     function resetTagging() {
       Array.from(document.all).forEach(item => {
-        delete item.dataset.heaTaggedClass;
-        item.style.backgroundColor = item.dataset.heaPrevBgcolor;
-        delete item.dataset.heaPrevBgcolor;
+        delete item.dataset.domsegClass;
+        item.style.backgroundColor = item.dataset.domsegPrevBgcolor;
+        delete item.dataset.domsegPrevBgcolor;
       });
     }
 

@@ -35,7 +35,7 @@ var storage = {
 
 // Page-specific logic
 var app = {
-  init: function() {
+  init: function(storage) {
     const taggingToggle = document.getElementById('taggingActive');
     var state = {
       taggingActive: taggingToggle.checked,
@@ -66,14 +66,14 @@ var app = {
       }).then(sendMessageToTabs, onError);
     }
 
-    // Handle request to update a document's HEA tags
+    // Handle request to update a document's DomSeg tags
     function updateTags(msg) {
       // TODO write to backend
-      serverConfig = storage.getStoredSettings().serverConfig;
-      console.log({
-        serverConfig: serverConfig, 
-        msg: msg
-      });
+      // serverConfig = storage.getStoredSettings().serverConfig;
+      // console.log({
+      //   serverConfig: serverConfig, 
+      //   msg: msg
+      // });
     }
 
     // Register click handler for each tag class button in sidebar
@@ -89,7 +89,7 @@ var app = {
       })
     });
 
-    // Add click handler to "activate tagging" checkbox to toggle state of reset button
+    // Add click handler to "activate tagging" checkbox to toggle state in content scripts
     taggingToggle.addEventListener('click', function (e) {
       state.taggingActive = e.target.checked;
       updateContentScripts();
@@ -119,4 +119,4 @@ var app = {
 
 // Execute everything we need
 storage.init();
-app.init();
+app.init(storage);

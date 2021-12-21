@@ -1,0 +1,105 @@
+defmodule DOMSegServerWeb.DatasetLiveTest do
+  use DOMSegServerWeb.ConnCase
+
+  import Phoenix.LiveViewTest
+  import DOMSegServer.DatasetsFixtures
+
+  @create_attrs %{}
+  @update_attrs %{}
+  @invalid_attrs %{}
+
+  defp create_dataset(_) do
+    dataset = dataset_fixture()
+    %{dataset: dataset}
+  end
+
+  describe "Index" do
+    setup [:create_dataset]
+
+    test "lists all datasets", %{conn: conn} do
+      {:ok, _index_live, html} = live(conn, Routes.dataset_index_path(conn, :index))
+
+      assert html =~ "Listing Datasets"
+    end
+
+    test "saves new dataset", %{conn: conn} do
+      {:ok, index_live, _html} = live(conn, Routes.dataset_index_path(conn, :index))
+
+      assert index_live |> element("a", "New Dataset") |> render_click() =~
+               "New Dataset"
+
+      assert_patch(index_live, Routes.dataset_index_path(conn, :new))
+
+      assert index_live
+             |> form("#dataset-form", dataset: @invalid_attrs)
+             |> render_change() =~ "can&#39;t be blank"
+
+      {:ok, _, html} =
+        index_live
+        |> form("#dataset-form", dataset: @create_attrs)
+        |> render_submit()
+        |> follow_redirect(conn, Routes.dataset_index_path(conn, :index))
+
+      assert html =~ "Dataset created successfully"
+    end
+
+    test "updates dataset in listing", %{conn: conn, dataset: dataset} do
+      {:ok, index_live, _html} = live(conn, Routes.dataset_index_path(conn, :index))
+
+      assert index_live |> element("#dataset-#{dataset.id} a", "Edit") |> render_click() =~
+               "Edit Dataset"
+
+      assert_patch(index_live, Routes.dataset_index_path(conn, :edit, dataset))
+
+      assert index_live
+             |> form("#dataset-form", dataset: @invalid_attrs)
+             |> render_change() =~ "can&#39;t be blank"
+
+      {:ok, _, html} =
+        index_live
+        |> form("#dataset-form", dataset: @update_attrs)
+        |> render_submit()
+        |> follow_redirect(conn, Routes.dataset_index_path(conn, :index))
+
+      assert html =~ "Dataset updated successfully"
+    end
+
+    test "deletes dataset in listing", %{conn: conn, dataset: dataset} do
+      {:ok, index_live, _html} = live(conn, Routes.dataset_index_path(conn, :index))
+
+      assert index_live |> element("#dataset-#{dataset.id} a", "Delete") |> render_click()
+      refute has_element?(index_live, "#dataset-#{dataset.id}")
+    end
+  end
+
+  describe "Show" do
+    setup [:create_dataset]
+
+    test "displays dataset", %{conn: conn, dataset: dataset} do
+      {:ok, _show_live, html} = live(conn, Routes.dataset_show_path(conn, :show, dataset))
+
+      assert html =~ "Show Dataset"
+    end
+
+    test "updates dataset within modal", %{conn: conn, dataset: dataset} do
+      {:ok, show_live, _html} = live(conn, Routes.dataset_show_path(conn, :show, dataset))
+
+      assert show_live |> element("a", "Edit") |> render_click() =~
+               "Edit Dataset"
+
+      assert_patch(show_live, Routes.dataset_show_path(conn, :edit, dataset))
+
+      assert show_live
+             |> form("#dataset-form", dataset: @invalid_attrs)
+             |> render_change() =~ "can&#39;t be blank"
+
+      {:ok, _, html} =
+        show_live
+        |> form("#dataset-form", dataset: @update_attrs)
+        |> render_submit()
+        |> follow_redirect(conn, Routes.dataset_show_path(conn, :show, dataset))
+
+      assert html =~ "Dataset updated successfully"
+    end
+  end
+end

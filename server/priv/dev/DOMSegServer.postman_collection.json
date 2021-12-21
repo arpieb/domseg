@@ -1,0 +1,134 @@
+{
+	"info": {
+		"_postman_id": "8b7a61c4-eab0-4787-b09b-4aed12b9c9de",
+		"name": "DOMSegServer",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "localhost:4000/api/datasets",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:4000/api/datasets",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"datasets"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:4000/api/datasets/:id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:4000/api/datasets/8ba17003-d0d9-4add-8eb8-1ad3b0cc52b6",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"datasets",
+						"8ba17003-d0d9-4add-8eb8-1ad3b0cc52b6"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:4000/api/samples",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"sample\": {\n    \"user_id\": \"11cdcd44-cf5e-46e4-8f9d-301422a9340d\",\n    \"dataset_id\": \"8ba17003-d0d9-4add-8eb8-1ad3b0cc52b6\",\n    \"url\": \"http://foo.com\",\n    \"html\": \"text\"\n  }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:4000/api/samples",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"samples"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:4000/api/samples/:id",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"sample\": {\n    \"html\": \"text_patch\"\n  }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:4000/api/samples/06e70b76-a4d1-4ced-8cd4-bc00bb37cc86",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"samples",
+						"06e70b76-a4d1-4ced-8cd4-bc00bb37cc86"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:4000/api/samples/:id Copy",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"sample\": {\n    \"html\": \"text_put\"\n  }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:4000/api/samples/06e70b76-a4d1-4ced-8cd4-bc00bb37cc86",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"samples",
+						"06e70b76-a4d1-4ced-8cd4-bc00bb37cc86"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

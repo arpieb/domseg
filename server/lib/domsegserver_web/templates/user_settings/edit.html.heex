@@ -1,0 +1,82 @@
+<h1>Settings</h1>
+
+<div class="d-flex align-items-start">
+  <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+    <button class="nav-link active" id="v-pills-change-email-tab" data-bs-toggle="pill" data-bs-target="#v-pills-change-email" type="button" role="tab" aria-controls="v-pills-change-email" aria-selected="true">Change email</button>
+    <button class="nav-link" id="v-pills-change-password-tab" data-bs-toggle="pill" data-bs-target="#v-pills-change-password" type="button" role="tab" aria-controls="v-pills-change-password" aria-selected="false">Change password</button>
+  </div>
+
+  <div class="tab-content" id="v-pills-tabContent">
+    <div class="tab-pane fade show active" id="v-pills-change-email" role="tabpanel" aria-labelledby="v-pills-change-email-tab">
+      <.form let={f} for={@email_changeset} action={Routes.user_settings_path(@conn, :update)} id="update_email">
+        <%= if @email_changeset.action do %>
+          <div class="alert alert-danger">
+            <p>Oops, something went wrong! Please check the errors below.</p>
+          </div>
+        <% end %>
+
+        <%= hidden_input f, :action, name: "action", value: "update_email" %>
+
+        <div class="mb-3">
+          <%= label f, :email, class: "form-label" %>
+          <%= email_input f, :email, required: true, class: "form-control" %>
+          <div class="form-text domseg-error-tag">
+            <%= error_tag f, :email %>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <%= label f, :current_password, for: "current_password_for_email", class: "form-label" %>
+          <%= password_input f, :current_password, required: true, name: "current_password", id: "current_password_for_email", class: "form-control" %>
+          <div class="form-text domseg-error-tag">
+            <%= error_tag f, :current_password %>
+          </div>
+        </div>
+
+        <div>
+          <%= submit "Change email" %>
+        </div>
+      </.form>
+    </div>
+    
+    <div class="tab-pane fade" id="v-pills-change-password" role="tabpanel" aria-labelledby="v-pills-change-password-tab">
+      <.form let={f} for={@password_changeset} action={Routes.user_settings_path(@conn, :update)} id="update_password">
+        <%= if @password_changeset.action do %>
+          <div class="alert alert-danger">
+            <p>Oops, something went wrong! Please check the errors below.</p>
+          </div>
+        <% end %>
+
+        <%= hidden_input f, :action, name: "action", value: "update_password" %>
+
+        <div class="mb-3">
+          <%= label f, :password, "New password", class: "form-label" %>
+          <%= password_input f, :password, required: true, class: "form-control" %>
+          <div class="form-text domseg-error-tag">
+            <%= error_tag f, :password %>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <%= label f, :password_confirmation, "Confirm new password", class: "form-label" %>
+          <%= password_input f, :password_confirmation, required: true, class: "form-control" %>
+          <div class="form-text domseg-error-tag">
+            <%= error_tag f, :password_confirmation %>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <%= label f, :current_password, for: "current_password_for_password", class: "form-label" %>
+          <%= password_input f, :current_password, required: true, name: "current_password", id: "current_password_for_password", class: "form-control" %>
+          <div class="form-text domseg-error-tag">
+            <%= error_tag f, :password %>
+          </div>
+        </div>
+
+        <div>
+          <%= submit "Change password" %>
+        </div>
+      </.form>
+    </div>
+  </div>
+</div>

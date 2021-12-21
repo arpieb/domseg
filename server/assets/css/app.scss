@@ -1,0 +1,121 @@
+@import "../node_modules/bootstrap/scss/bootstrap";
+
+// Application button classes
+button:not(.nav-link), .domseg-btn {
+  @extend .btn;
+  @extend .btn-primary;
+}
+
+.domseg-btn-secondary {
+  @extend .btn;
+  @extend .btn-secondary;
+}
+
+.domseg-btn-success {
+  @extend .btn;
+  @extend .btn-success;
+}
+
+.domseg-btn-danger {
+  @extend .btn;
+  @extend .btn-danger;
+}
+
+.domseg-btn-warning {
+  @extend .btn;
+  @extend .btn-warning;
+}
+
+.domseg-btn-info {
+  @extend .btn;
+  @extend .btn-info;
+}
+
+.domseg-btn-light {
+  @extend .btn;
+  @extend .btn-light;
+}
+
+.domseg-btn-dark {
+  @extend .btn;
+  @extend .btn-dark;
+}
+
+.domseg-btn-link {
+  @extend .btn;
+  @extend .btn-link;
+}
+
+.domseg-icon-check {
+  height: 1em;
+  width: 1em;
+  color: limegreen;
+}
+
+.domseg-icon-2x-check {
+  @extend .domseg-icon-check;
+  height: 2em;
+  width: 2em;
+}
+
+// Navigation pills
+.nav-pills .nav-link {
+  background-color: white;
+  color: black;
+}
+
+.nav-pills .nav-link:hover:not(.active) {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.nav-pills .nav-link.active {
+  background-color: black;
+  color: white;
+}
+
+// Header nav avatar
+.navbar-nav img {
+  height: 1.5em;
+}
+
+/*
+  LiveView specific classes for your customizations from:
+  https://fullstackphoenix.com/tutorials/bootstrap-5-and-phoenix-liveview
+*/
+.phx-no-feedback.invalid-feedback,
+.phx-no-feedback .invalid-feedback {
+  display: none;
+}
+
+.phx-click-loading {
+  opacity: 0.5;
+  transition: opacity 1s ease-out;
+}
+
+.phx-disconnected{
+  cursor: wait;
+}
+
+.phx-disconnected *{
+  pointer-events: none;
+}
+
+.alert:empty {
+  display: none;
+}
+
+// Modal style overrides
+.modal-header .btn-close {
+  padding: 0.5rem 0.5rem;
+  margin: -0.5rem -0.5rem -0.5rem auto;
+  background-color: white;
+  border: none;
+}
+
+// Dataset show
+.domseg-color-swatch {
+  display: inline-block; 
+  width: 1em; 
+  height: 1em;
+  border: 1px solid black;
+}

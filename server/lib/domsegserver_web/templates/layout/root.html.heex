@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <%= csrf_meta_tag() %>
+    <%= live_title_tag assigns[:page_title] || "DOMSegServer", suffix: " · Phoenix Framework" %>
+    <link phx-track-static rel="stylesheet" href={Routes.static_path(@conn, "/assets/app.css")}/>
+    <script defer phx-track-static type="text/javascript" src={Routes.static_path(@conn, "/assets/app.js")}></script>
+    <link rel="shortcut icon" type="image/jpg" href="/favicon.ico"/>
+  </head>
+
+  <body>
+    <header>
+      <nav class="navbar navbar-dark bg-dark navbar-expand-lg">
+        <div class="container-fluid">
+          <%= link to: Routes.page_path(@conn, :index), class: "navbar-brand" do %>
+            <img src="/images/icon.svg" alt="" width="30" height="24" class="d-inline-block align-text-top">
+            DOMSeg
+          <% end %>>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav">
+              <%= render "_user_menu.html", assigns %>
+              <.ignore>
+              <%= if function_exported?(Routes, :live_dashboard_path, 2) do %>
+                <li class="navbar-text"> &#8226; </li>
+                <li class="nav-item"><%= link "LiveDashboard", to: Routes.live_dashboard_path(@conn, :home), target: "_domseg_ld", class: "nav-link" %></li>
+              <% end %>
+              </.ignore>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <%= @inner_content %>
+  </body>
+</html>

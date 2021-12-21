@@ -1,0 +1,51 @@
+<% current_user = get_current_user(@user_token) %>
+
+<%= if @live_action in [:edit] do %>
+  <%= live_modal DOMSegServerWeb.DatasetLive.FormComponent,
+    id: @dataset.id,
+    title: @page_title,
+    action: @live_action,
+    dataset: @dataset,
+    return_to: Routes.dataset_show_path(@socket, :show, @dataset) %>
+<% end %>
+
+<h1><%= @dataset.name %> <%= if @dataset.is_active, do: Bootstrap.Icons.check2_circle(class: "domseg-icon-check") %></h1>
+
+<div class="mb-3">
+  <%= @dataset.description %>
+</div>
+
+<h2>Segment Types</h2>
+<%= if @dataset.segment_types != [] do %>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Color</th>
+      </tr>
+    </thead>
+    <tbody id="segment_types">
+      <%= for st <- @dataset.segment_types do %>
+        <tr>
+          <th scope="row">
+            <%= st.name %>
+          </th>
+
+          <td>
+            <%= content_tag :div, "", class: "domseg-color-swatch", style: "background-color: #{st.color};" %>
+            <%= st.color %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <div class="mb-3">
+    <em>No segment types have been defined yet for this dataset</em>
+  </div>
+<% end %>
+
+<%= if current_user != nil and current_user.is_admin do %>
+<span><%= live_patch "Edit", to: Routes.dataset_show_path(@socket, :edit, @dataset), class: "domseg-btn" %></span>
+<% end %>
+<span><%= live_redirect "Back", to: Routes.dataset_index_path(@socket, :index), class: "domseg-btn" %></span>
