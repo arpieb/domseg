@@ -3,33 +3,13 @@ var storage = {
   // Make sure storage is initialized to defaults
   init: function() {
     // Default settings. Initialize storage to these values.
-    var serverConfig = {
-      serverUrl: "",
-      authToken: ""
-    }
-
-    // Generic error logger.
-    function onError(e) {
-      console.error(e);
-    }
-
-    // On startup, check whether we have stored settings. If we don't, then store the default settings.
-    function checkStoredSettings(storedSettings) {
-      if (!storedSettings.serverConfig) {
-        browser.storage.local.set({serverConfig});
-      }
-    }
-
-    const gettingStoredSettings = browser.storage.local.get();
-    gettingStoredSettings.then(checkStoredSettings, onError);
+    serverConfig = localStorage.setItem('serverUrl', localStorage.getItem('serverUrl')  || '');
+    serverConfig = localStorage.setItem('authToken', localStorage.getItem('authToken')  || '');
   },
 
   // Retrieve stored settings
-  getStoredSettings: function() {
-    const gettingStoredSettings = browser.storage.local.get();
-    gettingStoredSettings.then(function (storedSettings) {
-      return storedSettings;
-    });
+  getConfig: function(key) {
+    return localStorage.getItem(key);
   }
 }
 
@@ -42,6 +22,7 @@ var app = {
       curClass: null,
       tagClasses: {},
     }
+    var datasets = [];
 
     // Generic error logger.
     function onError(e) {
@@ -76,18 +57,67 @@ var app = {
       // });
     }
 
+    function updateDatasetSelect() {
+      sel = document.getElementById('datasetSelect');
+      sel[0] = new Option('Select dataset...', -1);
+      datasets.forEach((dataset, idx) => {
+        sel[sel.options.length] = new Option(dataset.name, idx);
+      });
+    }
+
+    function getDatasets() {
+      serverUrl = storage.getConfig('serverUrl');
+      if (serverUrl !== null && serverUrl.length > 0) {
+        function reqListener () {
+          datasets = JSON.parse(this.responseText).data;
+          updateDatasetSelect();
+        }
+        
+        var oReq = new XMLHttpRequest();
+        oReq.addEventListener("load", reqListener);
+        oReq.open("GET", serverUrl + "/api/datasets");
+        oReq.send();    
+      }
+    }
+
     // Register click handler for each tag class button in sidebar
-    document.querySelectorAll('.class-selector').forEach(item => {
-      state.tagClasses[item.dataset.class] = item.style.backgroundColor;
-      item.addEventListener('click', function (e) {
-        state.curClass = e.currentTarget.dataset.class;
-        document.querySelectorAll('.class-selector').forEach(item => {
-          item.classList.remove('selected');
+    function registerClassSelectorHandlers() {
+      document.querySelectorAll('.class-selector').forEach(item => {
+        state.tagClasses[item.dataset.class] = item.style.backgroundColor;
+        item.addEventListener('click', function (e) {
+          state.curClass = e.currentTarget.dataset.class;
+          document.querySelectorAll('.class-selector').forEach(item => {
+            item.classList.remove('selected');
+          })
+          e.target.classList.toggle('selected');
+          updateContentScripts();
         })
-        e.target.classList.toggle('selected');
-        updateContentScripts();
+      });
+    }
+
+    // Update class slectors with a new set of segment types
+    function updateClassSelectors(segment_types) {
+      class_selectors = document.getElementById('class-selectors');
+
+      // Remove current children
+      while (class_selectors.lastChild) {
+        class_selectors.removeChild(class_selectors.lastChild);
+      }
+
+      // Append new children
+      segment_types.forEach(seg_type => {
+        btn = document.createElement('button');
+        btn.className = 'class-selector';
+        btn.style = 'background-color: ' + seg_type.color;
+        btn.dataset.class = seg_type.name;
+        btn.innerHTML = seg_type.name;
+
+        class_selectors.appendChild(btn);
+
+        // Register event hanlders for new buttons
+        registerClassSelectorHandlers();
       })
-    });
+    }
 
     // Add click handler to "activate tagging" checkbox to toggle state in content scripts
     taggingToggle.addEventListener('click', function (e) {
@@ -97,7 +127,6 @@ var app = {
 
     // Handle requests from content scripts
     browser.runtime.onMessage.addListener(function (msg, sender, sendResponse) {
-      console.log('msg', msg);
       switch (msg.request) {
         case 'requestState':
           sendResponse(state);
@@ -114,6 +143,20 @@ var app = {
     document.getElementById('showOptions').addEventListener('click', function (e) {
       browser.runtime.openOptionsPage();
     });
+
+    // Dataset selector change
+    document.getElementById('datasetSelect').addEventListener('change', function (e) {
+      selected_dataset = e.target.value;
+      segment_types = datasets[selected_dataset].segment_types;
+
+      state.tagClasses = {};
+      state.curClass = null;
+
+      updateClassSelectors(segment_types);
+    });
+
+    // Get datasets and complete initialization
+    getDatasets();
   }
 }
 
