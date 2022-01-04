@@ -21,6 +21,7 @@ var app = {
       taggingActive: taggingToggle.checked,
       curClass: null,
       tagClasses: {},
+      curDataset: null,
     }
     var datasets = [];
 
@@ -50,15 +51,40 @@ var app = {
     // Handle request to update a document's DomSeg tags
     function updateTags(msg) {
       // TODO write to backend
-      // serverConfig = storage.getStoredSettings().serverConfig;
-      // console.log({
-      //   serverConfig: serverConfig, 
-      //   msg: msg
-      // });
+      serverUrl = storage.getConfig('serverUrl');
+      authToken = storage.getConfig('authToken');
+      if (serverUrl !== null && serverUrl.length > 0) {
+        var oReq = new XMLHttpRequest();
+        oReq.open("POST", serverUrl + "/api/samples", true);
+        oReq.setRequestHeader("Content-Type", "application/json");
+        oReq.onreadystatechange = function() {
+          if (this.readyState === XMLHttpRequest.DONE) {
+            switch (this.status) {
+              case 200:
+                break;
+              default:
+                alert("Push to DOMSeg Server failed");
+            }
+          }
+        }
+
+        body = JSON.stringify({
+          sample: {
+            dataset_id: datasets[state.curDataset].id,
+            user_id: authToken,
+            url: msg.data.url,
+            html: msg.data.html,
+          }
+        });
+        oReq.send(body);    
+      }
     }
 
     function updateDatasetSelect() {
       sel = document.getElementById('datasetSelect');
+      while (sel.lastChild) {
+        sel.removeChild(sel.lastChild);
+      }
       sel[0] = new Option('Select dataset...', -1);
       datasets.forEach((dataset, idx) => {
         sel[sel.options.length] = new Option(dataset.name, idx);
@@ -134,7 +160,10 @@ var app = {
         case 'updateTags':
           updateTags(msg);
           break;
-      }
+        case 'updateDatasets':
+          getDatasets();
+          break;
+        }
 
       return true;
     });
@@ -151,9 +180,15 @@ var app = {
 
       state.tagClasses = {};
       state.curClass = null;
+      state.curDataset = selected_dataset;
 
       updateClassSelectors(segment_types);
     });
+
+    // // Save annotated DOM
+    // document.getElementById('saveAnnotations').addEventListener('click', function (e) {
+    //   // TODO
+    // });
 
     // Get datasets and complete initialization
     getDatasets();

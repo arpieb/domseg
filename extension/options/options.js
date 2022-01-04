@@ -9,6 +9,11 @@ var app = {
     function storeSettings() {
       localStorage.setItem('serverUrl', serverUrl.value);
       localStorage.setItem('authToken', authToken.value);
+      browser.runtime.sendMessage({
+        request: 'updateDatasets',
+        data: {}
+        });
+
     }
 
     /*

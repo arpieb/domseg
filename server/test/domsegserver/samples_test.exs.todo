@@ -1,0 +1,26 @@
+defmodule DOMSegServer.SamplesTest do
+  use DOMSegServer.DataCase
+
+  alias DOMSegServer.Samples
+
+  describe "samples" do
+    alias DOMSegServer.Samples.Sample
+
+    import DOMSegServer.SamplesFixtures
+
+    @invalid_attrs %{html: nil, url: nil, dataset_id: nil, user_id: nil}
+
+    test "get_sample!/1 returns the sample with given id" do
+      sample = sample_fixture()
+      assert Samples.get_sample!(sample) == sample
+    end
+
+    test "upsert_sample/2 with valid data updates the sample" do
+      sample = sample_fixture()
+      update_attrs = %{html: "some updated html"}
+
+      assert {:ok, %Sample{} = sample} = Samples.upsert_sample(sample, update_attrs)
+      assert sample.html == "some updated html"
+    end
+  end
+end

@@ -86,9 +86,11 @@ var app = {
       if (taggableElement(e)) {
         updateBackgrounds(e.target);
       }
-      else {
-        updateBackgrounds(null);
-      }
+    });
+
+    // Add mouseover handler for taggable page elements
+    document.addEventListener('mouseout', function (e) {
+      updateBackgrounds(null);
     });
 
     // Add click handler for taggable page elements
