@@ -50,7 +50,6 @@ var app = {
 
     // Handle request to update a document's DomSeg tags
     function updateTags(msg) {
-      // TODO write to backend
       serverUrl = storage.getConfig('serverUrl');
       authToken = storage.getConfig('authToken');
       if (serverUrl !== null && serverUrl.length > 0) {
@@ -184,11 +183,6 @@ var app = {
 
       updateClassSelectors(segment_types);
     });
-
-    // // Save annotated DOM
-    // document.getElementById('saveAnnotations').addEventListener('click', function (e) {
-    //   // TODO
-    // });
 
     // Get datasets and complete initialization
     getDatasets();
