@@ -2,7 +2,8 @@
   "description": "Provides an element-level semantic segmentation annotation tool for machine learning datasets",
   "manifest_version": 2,
   "name": "DOMSeg Annotator",
-  "version": "1.0",
+  "version": "0.1",
+  "author": "Robert Bates (@arpieb)",
   "homepage_url": "https://github.com/arpieb/domseg",
   "icons": {
     "48": "icon.svg"

@@ -6,6 +6,15 @@ body {
   padding: 1em 0;
 }
 
+.control a {
+	text-decoration: none;
+	/* font-size: 1.25em; */
+}
+
+#datasetSelect {
+  width: 100%;
+}
+
 .class-selector {
   border: 4px solid white;
   display: block;

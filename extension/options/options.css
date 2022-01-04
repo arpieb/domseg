@@ -5,3 +5,7 @@
 .control label {
   display: block;
 }
+
+.control input[type="text"] {
+  width: 100%;
+}
