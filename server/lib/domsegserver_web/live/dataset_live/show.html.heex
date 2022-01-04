@@ -15,6 +15,52 @@
   <%= @dataset.description %>
 </div>
 
+<h2>Statistics</h2>
+<table class="table">
+  <%# <thead>
+    <tr>
+      <th scope="col"></th>
+    </tr>
+  </thead> %>
+  <tbody id="statistics">
+    <tr>
+      <th scope="row">
+        Samples
+      </th>
+      <td>
+        <%= format_int(@stats.num_samples) %>
+      </td>
+    </tr>
+
+    <tr>
+      <th scope="row">
+        Unique URLs
+      </th>
+      <td>
+        <%= format_int(@stats.num_urls) %>
+      </td>
+    </tr>
+
+    <tr>
+      <th scope="row">
+        Contributors
+      </th>
+      <td>
+        <%= format_int(@stats.num_users) %>
+      </td>
+    </tr>
+
+    <tr>
+      <th scope="row">
+        Average HTML Length
+      </th>
+      <td>
+        <%= format_int(@stats.avg_html_len) %>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
 <h2>Segment Types</h2>
 <%= if @dataset.segment_types != [] do %>
   <table class="table">

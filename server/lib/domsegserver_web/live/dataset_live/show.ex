@@ -19,7 +19,9 @@ defmodule DOMSegServerWeb.DatasetLive.Show do
     {:noreply,
      socket
      |> assign(:page_title, page_title(socket.assigns.live_action))
-     |> assign(:dataset, Datasets.get_dataset!(id))}
+     |> assign(:dataset, Datasets.get_dataset!(id))
+     |> assign(:stats, Datasets.get_dataset_stats(id))
+    }
   end
 
   defp page_title(:show), do: "Show Dataset"
@@ -28,4 +30,6 @@ defmodule DOMSegServerWeb.DatasetLive.Show do
   def get_current_user(token) do
     DOMSegServer.Accounts.get_user_by_session_token(token)
   end
+
+  def format_int(val), do: Number.Delimit.number_to_delimited(val, precision: 0)
 end

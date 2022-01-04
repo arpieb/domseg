@@ -55,6 +55,7 @@ defmodule DOMSegServer.MixProject do
       {:dart_sass, "~> 0.3.0"},
       {:exgravatar, "~> 2.0"},
       {:bootstrap_icons, "~> 0.4.0"},
+      {:number, "~> 1.0"},
     ]
   end
 

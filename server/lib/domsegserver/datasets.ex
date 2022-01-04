@@ -107,4 +107,30 @@ defmodule DOMSegServer.Datasets do
     Dataset.changeset(dataset, attrs)
   end
 
+  @doc """
+  Extract sample stats for the given dataset ID
+  """
+  def get_dataset_stats(id) do
+    ds_query = from s in DOMSegServer.Samples.Sample, where: s.dataset_id == ^id
+
+    num_samples = Repo.aggregate(ds_query, :count)
+
+    query = from s in ds_query, distinct: true, select: s.url
+    num_urls = Repo.aggregate(query, :count)
+
+    query = from s in ds_query, distinct: true, select: s.user_id
+    num_users = Repo.aggregate(query, :count)
+
+    query = from s in ds_query, select: fragment("avg(length(?))", s.html)
+    avg_html_len = Repo.one(query) |> IO.inspect()
+
+
+    %{
+      num_urls: num_urls,
+      num_users: num_users,
+      num_samples: num_samples,
+      avg_html_len: avg_html_len
+    }
+  end
+
 end
