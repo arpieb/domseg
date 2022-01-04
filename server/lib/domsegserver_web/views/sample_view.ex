@@ -8,7 +8,6 @@ defmodule DOMSegServerWeb.SampleView do
 
   def render("sample.json", %{sample: sample}) do
     %{
-      id: sample.id,
       dataset_id: sample.dataset_id,
       user_id: sample.user_id,
       url: sample.url,

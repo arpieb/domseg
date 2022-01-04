@@ -7,24 +7,12 @@ defmodule DOMSegServerWeb.SampleController do
 
   action_fallback DOMSegServerWeb.FallbackController
 
-  def create(conn, %{"sample" => sample_params} = data) do
-    with {:ok, %Sample{} = sample} <- Samples.create_sample(sample_params) do
+  def upsert(conn, %{"sample" => sample_params} = data) do
+    keys = Samples.extract_keys(sample_params)
+    with {:ok, %Sample{} = sample} <- Samples.upsert_sample(keys, sample_params) do
       conn
-      |> put_status(:created)
+      |> put_status(:ok)
       |> render("show.json", sample: sample)
-    else
-      _ ->
-        conn
-        |> put_status(:unprocessable_entity)
-        |> put_view(ErrorView)
-        |> render("422.json", data)
-    end
-  end
-
-  def update(conn, %{"id" => id, "sample" => sample_params} = data) do
-    with %Sample{} = sample <- Samples.get_sample(id) |> IO.inspect,
-         {:ok, %Sample{} = sample} <- Samples.update_sample(sample, sample_params) |> IO.inspect do
-      render(conn, "show.json", sample: sample)
     else
       _ ->
         conn

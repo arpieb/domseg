@@ -43,7 +43,8 @@ defmodule DOMSegServerWeb.Router do
     pipe_through :api
 
     resources "/datasets", DatasetController, only: [:index, :show]
-    resources "/samples", SampleController, only: [:create, :update]
+
+    post "/samples", SampleController, :upsert
   end
 
   # Enables LiveDashboard only for development

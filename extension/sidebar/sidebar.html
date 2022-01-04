@@ -9,8 +9,15 @@
 
   <body>
     <div>
-      <div class="class-selectors">
-        <!-- The following items should ultimately be created dynamically based on chat with HEAServer -->
+      <select id="datasetSelect"></select>
+    </div>
+
+    <div>
+      <div id="class-selectors">
+        <p>
+          Please select a dataset above to start.
+        </p>
+        <!-- The following items should ultimately be created dynamically based on chat with HEAServer
         <button class="class-selector" style="background-color:aqua" data-class="header">header</button>
         <button class="class-selector" style="background-color:cadetblue" data-class="header-nav">header-nav</button>
         <button class="class-selector" style="background-color:burlywood" data-class="content">content</button>
@@ -20,6 +27,7 @@
         <button class="class-selector" style="background-color:darksalmon" data-class="advertisement">advertisement</button>
         <button class="class-selector" style="background-color:mediumorchid" data-class="footer">footer</button>
         <button class="class-selector" style="background-color:lightyellow" data-class="footer-nav">footer-nav</button>
+         -->
       </div>
 
       <div class="control">
@@ -27,8 +35,14 @@
         <label for="taggingActive">Activate tagging</label>
       </div>
 
+      <!-- 
       <div class="control">
-        <button id="showOptions">Show Options</button>
+        <button id="saveAnnotations">Save</button>
+      </div>
+      -->
+
+      <div class="control">
+        <a id="showOptions" href="#">Options...</a>
       </div>
     </div>
 

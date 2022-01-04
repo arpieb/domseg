@@ -9,6 +9,19 @@ defmodule DOMSegServer.Samples do
   alias DOMSegServer.Repo
   alias DOMSegServer.Samples.Sample
 
+  defguard has_sample_keys(sample) when
+    is_map(sample) and
+    is_uuid(sample.dataset_id) and
+    is_uuid(sample.user_id) and
+    is_binary(sample.url)
+
+  def extract_keys(attrs) do
+    %{}
+    |> Map.put(:dataset_id, attrs[:dataset_id] || attrs["dataset_id"])
+    |> Map.put(:user_id, attrs[:user_id] || attrs["user_id"])
+    |> Map.put(:url, attrs[:url] || attrs["url"])
+  end
+
   @doc """
   Returns the list of samples.
 
@@ -24,86 +37,34 @@ defmodule DOMSegServer.Samples do
 
   @doc """
   Gets a single sample.
-
-  Raises `Ecto.NoResultsError` if the Sample does not exist.
-
-  ## Examples
-
-      iex> get_sample!(123)
-      %Sample{}
-
-      iex> get_sample!(456)
-      ** (Ecto.NoResultsError)
-
   """
-  def get_sample!(id) when is_uuid(id), do: Repo.get!(Sample, id)
-  def get_sample!(_id), do: nil
+  def get_sample!(sample) when has_sample_keys(sample) do
+    Repo.get_by!(Sample, dataset_id: sample.dataset_id, user_id: sample.user_id, url: sample.url)
+  end
+  def get_sample!(_sample), do: nil
 
-  def get_sample(id) when is_uuid(id), do: Repo.get(Sample, id)
-  def get_sample(_id), do: nil
+  def get_sample(sample) when has_sample_keys(sample) do
+    Repo.get_by(Sample, dataset_id: sample.dataset_id, user_id: sample.user_id, url: sample.url)
+  end
+  def get_sample(_sample), do: nil
 
   @doc """
-  Creates a sample.
-
-  ## Examples
-
-      iex> create_sample(%{field: value})
-      {:ok, %Sample{}}
-
-      iex> create_sample(%{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
+  Performs upsert on dataset/user/url composite key
   """
-  def create_sample(attrs \\ %{}) do
-    %Sample{}
+  def upsert_sample(keys, attrs) when has_sample_keys(keys) do
+    case get_sample(keys) do
+      nil  -> Sample.changeset(%Sample{}, attrs) |> Ecto.Changeset.apply_changes()
+      sample -> sample
+    end
     |> Sample.changeset(attrs)
-    |> Repo.insert()
+    |> Repo.insert_or_update()
   end
 
-  @doc """
-  Updates a sample.
+  def upsert_sample(keys, attrs) do
+    changeset = Sample.changeset(%Sample{}, attrs)
+      |> Ecto.Changeset.add_error(:unique_key, "Invalid unique key provided", keys: keys)
 
-  ## Examples
-
-      iex> update_sample(sample, %{field: new_value})
-      {:ok, %Sample{}}
-
-      iex> update_sample(sample, %{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def update_sample(%Sample{} = sample, attrs) do
-    sample
-    |> Sample.changeset(attrs)
-    |> Repo.update()
+    {:error, changeset}
   end
 
-  @doc """
-  Deletes a sample.
-
-  ## Examples
-
-      iex> delete_sample(sample)
-      {:ok, %Sample{}}
-
-      iex> delete_sample(sample)
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def delete_sample(%Sample{} = sample) do
-    Repo.delete(sample)
-  end
-
-  @doc """
-  Returns an `%Ecto.Changeset{}` for tracking sample changes.
-
-  ## Examples
-
-      iex> change_sample(sample)
-      %Ecto.Changeset{data: %Sample{}}
-
-  """
-  def change_sample(%Sample{} = sample, attrs \\ %{}) do
-    Sample.changeset(sample, attrs)
-  end
 end
