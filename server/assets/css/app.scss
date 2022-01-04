@@ -119,3 +119,7 @@ button:not(.nav-link), .domseg-btn {
   height: 1em;
   border: 1px solid black;
 }
+
+#statistics td:last-child {
+	text-align: right;
+}
