@@ -52,7 +52,8 @@ defmodule DOMSegServerWeb.DatasetLive.Index do
     Datasets.list_datasets()
   end
 
+  def get_current_user(nil), do: nil
   def get_current_user(token) do
-    DOMSegServer.Accounts.get_user_by_session_token(token)
+      DOMSegServer.Accounts.get_user_by_session_token(token)
   end
 end

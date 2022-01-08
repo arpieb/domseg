@@ -21,6 +21,10 @@ defmodule DOMSegServerWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+    get "/about", PageController, :about
+
+    live "/datasets", DatasetLive.Index, :index
+    live "/datasets/:id", DatasetLive.Show, :show
   end
 
   # Secured resources
@@ -35,8 +39,6 @@ defmodule DOMSegServerWeb.Router do
   scope "/", DOMSegServerWeb do
     pipe_through [:browser, :require_authenticated_user]
 
-    live "/datasets", DatasetLive.Index, :index
-    live "/datasets/:id", DatasetLive.Show, :show
   end
 
   scope "/api", DOMSegServerWeb do

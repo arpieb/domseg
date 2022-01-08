@@ -20,7 +20,12 @@ defmodule DOMSegServer.MixProject do
   def application do
     [
       mod: {DOMSegServer.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [
+        :logger,
+        :runtime_tools,
+        :earmark,
+        :html_entities,
+      ]
     ]
   end
 
@@ -56,6 +61,7 @@ defmodule DOMSegServer.MixProject do
       {:exgravatar, "~> 2.0"},
       {:bootstrap_icons, "~> 0.4.0"},
       {:number, "~> 1.0"},
+      {:phoenix_markdown, "~> 1.0"},
     ]
   end
 
