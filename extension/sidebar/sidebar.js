@@ -1,5 +1,5 @@
 // Storage interface
-var storage = {
+const storage = {
   // Make sure storage is initialized to defaults
   init: function() {
     // Default settings. Initialize storage to these values.
@@ -14,7 +14,7 @@ var storage = {
 }
 
 // Page-specific logic
-var app = {
+const app = {
   init: function(storage) {
     const taggingToggle = document.getElementById('taggingActive');
     var state = {
@@ -73,6 +73,8 @@ var app = {
             user_id: authToken,
             url: msg.data.url,
             html: msg.data.html,
+            selector: msg.data.selector,
+            domseg_class: msg.data.domseg_class
           }
         });
         oReq.send(body);    
@@ -120,7 +122,7 @@ var app = {
       });
     }
 
-    // Update class slectors with a new set of segment types
+    // Update class selectors with a new set of segment types
     function updateClassSelectors(segment_types) {
       class_selectors = document.getElementById('class-selectors');
 
