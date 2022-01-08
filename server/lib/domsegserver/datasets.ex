@@ -122,8 +122,7 @@ defmodule DOMSegServer.Datasets do
     num_users = Repo.aggregate(query, :count)
 
     query = from s in ds_query, select: fragment("avg(length(?))", s.html)
-    avg_html_len = Repo.one(query) |> IO.inspect()
-
+    avg_html_len = Repo.one(query)
 
     %{
       num_urls: num_urls,

@@ -30,7 +30,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:4000/api/datasets/8ba17003-d0d9-4add-8eb8-1ad3b0cc52b6",
+					"raw": "localhost:4000/api/datasets/c9932b60-90ed-4111-9210-777dc2dfbf3b",
 					"host": [
 						"localhost"
 					],
@@ -38,7 +38,7 @@
 					"path": [
 						"api",
 						"datasets",
-						"8ba17003-d0d9-4add-8eb8-1ad3b0cc52b6"
+						"c9932b60-90ed-4111-9210-777dc2dfbf3b"
 					]
 				}
 			},
@@ -51,7 +51,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"sample\": {\n    \"user_id\": \"11cdcd44-cf5e-46e4-8f9d-301422a9340d\",\n    \"dataset_id\": \"8ba17003-d0d9-4add-8eb8-1ad3b0cc52b6\",\n    \"url\": \"http://foo.com\",\n    \"html\": \"text\"\n  }\n}",
+					"raw": "{\n    \"sample\": {\n        \"dataset_id\": \"c9932b60-90ed-4111-9210-777dc2dfbf3b\", \n        \"domseg_class\": \"content\", \n        \"html\": null, \n        \"selector\": \"html > body > div:nth-child(3) > #content > div:nth-child(3) > div:nth-child(6) > div > div:nth-child(4)\", \n        \"url\": \"https://stackoverflow.com/company/press\", \n        \"user_id\": \"ccc159ed-9e7b-4dd2-9d3c-f5c9f7cad167\"\n    }\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -67,64 +67,6 @@
 					"path": [
 						"api",
 						"samples"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "localhost:4000/api/samples/:id",
-			"request": {
-				"method": "PATCH",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n  \"sample\": {\n    \"html\": \"text_patch\"\n  }\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "localhost:4000/api/samples/06e70b76-a4d1-4ced-8cd4-bc00bb37cc86",
-					"host": [
-						"localhost"
-					],
-					"port": "4000",
-					"path": [
-						"api",
-						"samples",
-						"06e70b76-a4d1-4ced-8cd4-bc00bb37cc86"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "localhost:4000/api/samples/:id Copy",
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n  \"sample\": {\n    \"html\": \"text_put\"\n  }\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "localhost:4000/api/samples/06e70b76-a4d1-4ced-8cd4-bc00bb37cc86",
-					"host": [
-						"localhost"
-					],
-					"port": "4000",
-					"path": [
-						"api",
-						"samples",
-						"06e70b76-a4d1-4ced-8cd4-bc00bb37cc86"
 					]
 				}
 			},

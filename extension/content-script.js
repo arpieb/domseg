@@ -1,14 +1,36 @@
-var app = {
+const app = {
   init: function() {
     // Define and init application state
     var state = {
       // Content script managed state
       curElement: null,
+      origHtml: null,
 
       // Extension managed state
       taggingActive: false,
       curClass: null,
       tagClasses: {},
+    }
+
+    /*
+      Generate a unique CSS selector for the given element
+      Shamelessly pulled from:
+      https://stackoverflow.com/questions/8588301/how-to-generate-unique-css-selector-for-dom-element#49663134
+    */
+    function getCssSelectorShort(el) {
+      let path = [], parent;
+      while (parent = el.parentNode) {
+        let tag = el.tagName, siblings;
+        path.unshift(
+          el.id ? `#${el.id}` : (
+            siblings = parent.children,
+            [].filter.call(siblings, sibling => sibling.tagName === tag).length === 1 ? tag :
+            `${tag}:nth-child(${1+[].indexOf.call(siblings, el)})`
+          )
+        );
+        el = parent;
+      };
+      return `${path.join(' > ')}`.toLowerCase();
     }
 
     // Test if we can tag the currently active element
@@ -49,10 +71,19 @@ var app = {
     // Tag element with currently selected data class and do something with it
     function tagElement(el) {
       tagClass = state.curClass;
+      selector = getCssSelectorShort(el)
+      console.log(selector);
       el.dataset.domsegClass = tagClass;
+      sendHtml = null;
+      if (state.origHtml === null) {
+        state.origHtml = document.getRootNode().children[0].outerHTML;
+        sendHtml = state.origHtml;
+      }
       data = {
         url: document.URL,
-        html: document.getRootNode().children[0].outerHTML,
+        html: sendHtml,
+        selector: selector,
+        domseg_class: tagClass
       };
       browser.runtime.sendMessage({
         request: 'updateTags',
