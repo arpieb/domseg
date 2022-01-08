@@ -52,6 +52,18 @@ config :logger, :console,
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
+# Add support for alternate template engine(s)
+config :phoenix, :template_engines,
+  md: PhoenixMarkdown.Engine
+
+config :phoenix_markdown, :earmark, %{
+  gfm: true,
+  smartypants: false,
+  breaks: true
+}
+
+config :phoenix_markdown, :server_tags, :all
+
 # Configure dart_sass
 config :dart_sass,
   version: "1.43.1",

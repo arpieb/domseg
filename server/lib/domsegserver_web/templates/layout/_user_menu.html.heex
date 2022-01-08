@@ -1,5 +1,4 @@
 <%= if @current_user do %>
-  <li class="nav-item"><%= link "Datasets", to: Routes.dataset_index_path(@conn, :index), class: "nav-link" %></li>
   <li class="nav-item">
   <%= link to: Routes.user_settings_path(@conn, :edit), class: "nav-link" do %>
     <%= get_avatar(@current_user.email) %>

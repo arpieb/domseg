@@ -27,6 +27,7 @@ defmodule DOMSegServerWeb.DatasetLive.Show do
   defp page_title(:show), do: "Show Dataset"
   defp page_title(:edit), do: "Edit Dataset"
 
+  def get_current_user(nil), do: nil
   def get_current_user(token) do
     DOMSegServer.Accounts.get_user_by_session_token(token)
   end

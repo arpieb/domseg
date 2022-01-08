@@ -24,6 +24,8 @@
           </button>
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav">
+              <li class="nav-item"><%= link "Datasets", to: Routes.dataset_index_path(@conn, :index), class: "nav-link" %></li>
+              <li class="nav-item"><%= link "About", to: Routes.page_path(@conn, :about), class: "nav-link" %></li>
               <%= render "_user_menu.html", assigns %>
               <.ignore>
               <%= if function_exported?(Routes, :live_dashboard_path, 2) do %>

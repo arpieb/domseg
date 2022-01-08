@@ -68,7 +68,7 @@ config :domsegserver, DOMSegServerWeb.Endpoint,
       ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",
       ~r"priv/gettext/.*(po)$",
       ~r"lib/domsegserver_web/(live|views)/.*(ex)$",
-      ~r"lib/domsegserver_web/templates/.*(eex)$"
+      ~r"lib/domsegserver_web/templates/.*(eex|md)$"
     ]
   ]
 
